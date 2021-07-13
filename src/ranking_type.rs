@@ -13,7 +13,7 @@ impl RankingType {
 
     pub fn get_targets(&self) -> u8 {
         match self {
-            RankingType::Break => 5,
+            RankingType::Break => 20,
             RankingType::Build => 10
         }
     }
