@@ -41,15 +41,13 @@ async fn main() {
 
     println!();
 
-    println!("整地量：20名");
-    println!();
+    println!("整地量：{}名", RankingType::Break.get_targets());
     let break_targets = fetch_data(RankingType::Break).await;
     println!("{:#?}", break_targets);
 
     println!();
 
-    println!("建築量：10名");
-    println!();
+    println!("建築量：{}名", RankingType::Build.get_targets());
     let build_targets = fetch_data(RankingType::Build).await;
     println!("{:#?}", build_targets);
 
@@ -60,7 +58,7 @@ async fn main() {
 
     println!();
 
-    println!("整地量：5名／20名");
+    println!("整地量：{}名", RankingType::Break.get_winners());
     println!();
     let rng = &mut rand::thread_rng();
     let break_winner: Vec<_> = break_targets
@@ -71,7 +69,7 @@ async fn main() {
 
     println!();
 
-    println!("建築量：3名／10名");
+    println!("建築量：{}名", RankingType::Build.get_winners());
     println!();
     let build_winner: Vec<_> = build_targets
         .choose_multiple(rng, RankingType::Build.get_winners().into())
