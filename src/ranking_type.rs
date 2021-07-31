@@ -20,8 +20,8 @@ impl RankingType {
 
     pub fn get_winners(&self) -> u8 {
         match self {
-            RankingType::Break => 5,
-            RankingType::Build => 3
+            RankingType::Break => 3,
+            RankingType::Build => 2
         }
     }
 }
