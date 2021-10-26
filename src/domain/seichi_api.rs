@@ -1,15 +1,24 @@
 use serde::Deserialize;
 
+/***
+○○量を表す
+ */
 #[derive(Debug, Deserialize)]
 struct Amount {
     raw_data: String,
 }
 
+/***
+MCIDを表す
+ */
 #[derive(Debug, Deserialize)]
 struct PlayerIdentifier {
     name: String,
 }
 
+/***
+各プレイヤーの個別データを表す
+ */
 #[derive(Debug, Deserialize)]
 pub struct Rank {
     rank: u32,
@@ -21,6 +30,9 @@ pub struct Rank {
     player: PlayerIdentifier,
 }
 
+/***
+APIからの直接の返り値の型
+ */
 #[derive(Debug, Deserialize)]
 pub struct Rankings {
     result_count: u32,
@@ -28,6 +40,9 @@ pub struct Rankings {
     total_ranked_player: u32,
 }
 
+/***
+本プログラム内で必要なものだけを詰め直すDTO
+ */
 #[derive(Clone, Debug)]
 pub struct Lottery {
     pub ranking_type: String,
