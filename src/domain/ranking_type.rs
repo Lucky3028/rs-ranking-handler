@@ -1,8 +1,8 @@
 use std::{convert::AsRef, str::FromStr};
 
-use strum::{AsRefStr, EnumProperty};
+use strum::{AsRefStr, EnumProperty, EnumIter};
 
-#[derive(AsRefStr, EnumProperty)]
+#[derive(AsRefStr, EnumProperty, EnumIter, PartialEq)]
 pub enum RankingType {
     #[strum(props(targets = "20", winners = "3"))]
     Break,
@@ -28,8 +28,17 @@ impl RankingType {
 #[cfg(test)]
 mod tests {
     use test_case::test_case;
+    use strum::IntoEnumIterator;
 
     use super::RankingType;
+
+    #[test]
+    fn test_count_and_contents() {
+        assert_eq!(RankingType::iter().count(), 2);
+
+        let rank_types: Vec<RankingType> = RankingType::iter().collect();
+        assert!(rank_types == vec![RankingType::Break, RankingType::Build]);
+    }
 
     #[test_case(RankingType::Build => "build")]
     #[test_case(RankingType::Break => "break")]
