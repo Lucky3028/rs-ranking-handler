@@ -9,7 +9,9 @@
 ```
 
 ## License
+
 [MIT License](./LICENSE)
 
 ## Reference
+
 [SeichiRanking API](https://github.com/GiganticMinecraft/SeichiRanking/wiki/API )
