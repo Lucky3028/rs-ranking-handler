@@ -4,7 +4,9 @@
 
 ## Usage
 
-
+```shell
+./ranking-handler
+```
 
 ## License
 [MIT License](./LICENSE)
