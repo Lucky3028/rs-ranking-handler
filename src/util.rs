@@ -1,6 +1,6 @@
 use std::{collections::HashMap, io::{self, prelude::*}};
 
-use crate::seichi_api::Rankings;
+use crate::domain::seichi_api::Rankings;
 
 pub fn pause() {
     print!("Press Enter key to continue...");

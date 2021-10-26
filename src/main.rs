@@ -1,6 +1,7 @@
 use rand::seq::SliceRandom;
-use ranking_handler::{domain::RankingType, seichi_api, util};
+use ranking_handler::{domain::RankingType, util};
 use std::{collections::HashMap, process};
+use ranking_handler::domain::seichi_api;
 
 const RANKING_URL: &str = "https://ranking-gigantic.seichi.click/api/ranking";
 
