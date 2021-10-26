@@ -29,10 +29,6 @@ pub struct Rankings {
     total_ranked_player: u32,
 }
 
-pub async fn deserialize(response: reqwest::Response) -> Result<Rankings, Box<(dyn error::Error)>> {
-    Ok(response.json::<Rankings>().await?)
-}
-
 #[derive(Clone, Debug)]
 pub struct Lottery {
     pub ranking_type: String,

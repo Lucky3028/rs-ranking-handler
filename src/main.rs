@@ -19,7 +19,7 @@ async fn fetch_data(ranking_type: RankingType) -> Vec<seichi_api::Lottery> {
         eprintln!(r"APIとの通信中にエラーが発生しました。\n{}", e);
         process::exit(1);
     }
-    let result = seichi_api::deserialize(result.unwrap()).await;
+    let result = util::deserialize(result.unwrap()).await;
     if let Err(e) = result {
         eprintln!(r"型変換の実行中にエラーが発生しました。\n{}", e);
         process::exit(1);
