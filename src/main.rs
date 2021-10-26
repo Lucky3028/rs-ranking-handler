@@ -1,5 +1,5 @@
 use rand::seq::SliceRandom;
-use ranking_handler::{fetch, domain::RankingType, seichi_api, util};
+use ranking_handler::{domain::RankingType, seichi_api, util};
 use std::{collections::HashMap, process};
 
 const RANKING_URL: &str = "https://ranking-gigantic.seichi.click/api/ranking";
@@ -14,7 +14,7 @@ fn queries(ranking_type: RankingType) -> HashMap<String, String> {
 }
 
 async fn fetch_data(ranking_type: RankingType) -> Vec<seichi_api::Lottery> {
-    let result = fetch::fetch(RANKING_URL, Some(queries(ranking_type))).await;
+    let result = util::fetch(RANKING_URL, Some(queries(ranking_type))).await;
     if let Err(e) = result {
         eprintln!(r"APIとの通信中にエラーが発生しました。\n{}", e);
         process::exit(1);
