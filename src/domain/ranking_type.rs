@@ -29,7 +29,7 @@ impl RankingType {
 mod tests {
     use test_case::test_case;
 
-    use crate::ranking_type::RankingType;
+    use super::RankingType;
 
     #[test_case(RankingType::Build => "build")]
     #[test_case(RankingType::Break => "break")]
