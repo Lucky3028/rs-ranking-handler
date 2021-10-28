@@ -13,3 +13,4 @@ serde_json = "1.0.64"
 rand = "0.8.4"
 strum = { version = "0.22.0", features = ["derive"] }
 test-case = "1.2.0"
+anyhow = "1.0.44"
