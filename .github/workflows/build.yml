@@ -19,15 +19,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    # IncrementalBuildが機能しないので、以下3ステップでファイルのタイムスタンプをgitから復元する
-    # https://zenn.dev/kt3k/articles/d557cc874961ab
-    - name: Install Python
-      uses: actions/setup-python@v2
-    - name: Install git-restore-mtime
-      run: sudo apt-get update && sudo apt-get install git-restore-mtime -y
-    - name: Restore mtime
-      run: git restore-mtime
-
     - name: Restore cache
       uses: actions/cache@v2
       with:
@@ -36,6 +27,15 @@ jobs:
           ~/.cargo/git
           target
         key: cargo-${{ github.ref }}-${{ hashFiles('**/Cargo.lock') }}
+
+    # IncrementalBuildが機能しないので、以下3ステップでファイルのタイムスタンプをgitから復元する
+    # https://zenn.dev/kt3k/articles/d557cc874961ab
+    - name: Install Python
+      uses: actions/setup-python@v2
+    - name: Install git-restore-mtime
+      run: sudo apt-get update && sudo apt-get install git-restore-mtime -y
+    - name: Restore mtime
+      run: git restore-mtime
 
     - name: Build
       run: cargo build --verbose
