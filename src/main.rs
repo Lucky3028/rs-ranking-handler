@@ -40,45 +40,56 @@ async fn main() -> anyhow::Result<()> {
 
     println!();
 
+    let results = tokio::try_join!(
+        tokio::spawn(fetch_data(RankingType::Break)),
+        tokio::spawn(fetch_data(RankingType::Build))
+    );
+    let (breaks, builds) = match results {
+        Ok(result) => (result.0?, result.1?),
+        Err(_) => anyhow::bail!("JoinError")
+    };
+
+    // TODO: 表示をテーブルで
+
     println!("整地量：{}名", RankingType::Break.get_targets());
-    let break_targets = fetch_data(RankingType::Break).await?;
-    println!("{:#?}", break_targets);
+    println!("{:#?}", breaks);
 
     println!();
 
     println!("建築量：{}名", RankingType::Build.get_targets());
-    let build_targets = fetch_data(RankingType::Build).await?;
-    println!("{:#?}", build_targets);
-
+    println!("{:#?}", builds);
+    
     println!();
-
+    
     println!("景品が実際に付与される方はこちらです。");
     util::pause();
-
+    
     println!();
-
+    
     println!("整地量：{}名", RankingType::Break.get_winners());
     println!();
     let rng = &mut rand::thread_rng();
-    let break_winner: Vec<_> = break_targets
+    let break_winner: Vec<_> = breaks
         .choose_multiple(rng, RankingType::Break.get_winners().into())
         .cloned()
         .collect();
     println!("{:#?}", break_winner);
-
+    
     println!();
-
+    
     println!("建築量：{}名", RankingType::Build.get_winners());
     println!();
-    let build_winner: Vec<_> = build_targets
+    let build_winner: Vec<_> = builds
         .choose_multiple(rng, RankingType::Build.get_winners().into())
         .cloned()
         .collect();
     println!("{:#?}", build_winner);
-
+    
     println!();
-
+    
     println!("抽選を終了しました。");
+
+    // TODO: コピペ用のMCIDだけの表記
 
     Ok(())
 }
