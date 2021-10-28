@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use anyhow::Context;
 
 use rand::seq::SliceRandom;
 
@@ -17,7 +18,8 @@ fn queries(ranking_type: RankingType) -> HashMap<String, String> {
 
 async fn fetch_data(ranking_type: RankingType) -> anyhow::Result<Vec<seichi_api::Lottery>> {
     let result = util::fetch(RANKING_URL, Some(queries(ranking_type))).await?;
-    let result = result.json::<seichi_api::Rankings>().await?;
+    let result = result.json::<seichi_api::Rankings>().await
+        .context("APIから受信したデータをデシリアライズできませんでした")?;
     Ok(result
         .ranks
         .iter()
