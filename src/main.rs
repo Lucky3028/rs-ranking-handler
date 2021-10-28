@@ -15,26 +15,18 @@ fn queries(ranking_type: RankingType) -> HashMap<String, String> {
     map
 }
 
-async fn fetch_data(ranking_type: RankingType) -> Vec<seichi_api::Lottery> {
-    let result = util::fetch(RANKING_URL, Some(queries(ranking_type))).await;
-    if let Err(e) = result {
-        eprintln!(r"APIとの通信中にエラーが発生しました。\n{}", e);
-        process::exit(1);
-    }
-    let result = util::deserialize(result.unwrap()).await;
-    if let Err(e) = result {
-        eprintln!(r"型変換の実行中にエラーが発生しました。\n{}", e);
-        process::exit(1);
-    }
-    let result = result.unwrap().ranks;
-    result
+async fn fetch_data(ranking_type: RankingType) -> anyhow::Result<Vec<seichi_api::Lottery>> {
+    let result = util::fetch(RANKING_URL, Some(queries(ranking_type))).await?;
+    let result = result.json::<seichi_api::Rankings>().await?;
+    Ok(result
+        .ranks
         .iter()
         .map(|rank| seichi_api::Lottery::convert(rank))
-        .collect()
+        .collect())
 }
 
 #[tokio::main]
-async fn main() {
+async fn main() -> anyhow::Result<()> {
     println!("月別ランキング報酬の抽選を開始します。");
     println!();
 
@@ -44,13 +36,13 @@ async fn main() {
     println!();
 
     println!("整地量：{}名", RankingType::Break.get_targets());
-    let break_targets = fetch_data(RankingType::Break).await;
+    let break_targets = fetch_data(RankingType::Break).await?;
     println!("{:#?}", break_targets);
 
     println!();
 
     println!("建築量：{}名", RankingType::Build.get_targets());
-    let build_targets = fetch_data(RankingType::Build).await;
+    let build_targets = fetch_data(RankingType::Build).await?;
     println!("{:#?}", build_targets);
 
     println!();
@@ -82,4 +74,6 @@ async fn main() {
     println!();
 
     println!("抽選を終了しました。");
+
+    Ok(())
 }
