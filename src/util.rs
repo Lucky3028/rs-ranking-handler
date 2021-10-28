@@ -1,6 +1,8 @@
-use std::{collections::HashMap, io::{self, prelude::*}};
-
 use anyhow::Context;
+use std::{
+    collections::HashMap,
+    io::{self, prelude::*},
+};
 
 pub fn pause() {
     print!("Press Enter key to continue...");

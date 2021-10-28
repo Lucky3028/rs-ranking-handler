@@ -1,9 +1,10 @@
-use std::collections::HashMap;
 use anyhow::Context;
-
 use rand::seq::SliceRandom;
-
-use ranking_handler::{domain::{RankingType, seichi_api}, util};
+use ranking_handler::{
+    domain::{seichi_api, RankingType},
+    util,
+};
+use std::collections::HashMap;
 
 const RANKING_URL: &str = "https://ranking-gigantic.seichi.click/api/ranking";
 
@@ -18,7 +19,9 @@ fn queries(ranking_type: RankingType) -> HashMap<String, String> {
 
 async fn fetch_data(ranking_type: RankingType) -> anyhow::Result<Vec<seichi_api::Lottery>> {
     let result = util::fetch(RANKING_URL, Some(queries(ranking_type))).await?;
-    let result = result.json::<seichi_api::Rankings>().await
+    let result = result
+        .json::<seichi_api::Rankings>()
+        .await
         .context("APIから受信したデータをデシリアライズできませんでした")?;
     Ok(result
         .ranks

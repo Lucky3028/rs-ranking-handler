@@ -1,6 +1,5 @@
 use std::{convert::AsRef, str::FromStr};
-
-use strum::{AsRefStr, EnumProperty, EnumIter};
+use strum::{AsRefStr, EnumIter, EnumProperty};
 
 #[derive(AsRefStr, EnumProperty, EnumIter, PartialEq)]
 pub enum RankingType {
@@ -17,18 +16,22 @@ impl RankingType {
     }
 
     pub fn get_targets(&self) -> u8 {
-        self.get_str("targets").and_then(|str| u8::from_str(str).ok()).unwrap_or(0)
+        self.get_str("targets")
+            .and_then(|str| u8::from_str(str).ok())
+            .unwrap_or(0)
     }
 
     pub fn get_winners(&self) -> u8 {
-        self.get_str("winners").and_then(|str| u8::from_str(str).ok()).unwrap_or(0)
+        self.get_str("winners")
+            .and_then(|str| u8::from_str(str).ok())
+            .unwrap_or(0)
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use test_case::test_case;
     use strum::IntoEnumIterator;
+    use test_case::test_case;
 
     use super::RankingType;
 

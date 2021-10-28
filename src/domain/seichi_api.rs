@@ -67,6 +67,11 @@ impl Lottery {
     }
 
     pub fn convert(rank: &Rank) -> Lottery {
-        Lottery::new(&rank.r_type, rank.rank, &rank.amount.raw_data, &rank.player.name)
+        Lottery::new(
+            &rank.r_type,
+            rank.rank,
+            &rank.amount.raw_data,
+            &rank.player.name,
+        )
     }
 }
