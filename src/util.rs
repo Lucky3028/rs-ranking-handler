@@ -1,5 +1,7 @@
 use std::{collections::HashMap, io::{self, prelude::*}};
 
+use anyhow::Context;
+
 pub fn pause() {
     print!("Press Enter key to continue...");
     io::stdout().flush().unwrap();
@@ -14,6 +16,7 @@ pub async fn fetch(
         .get(url)
         .query(&query.unwrap_or_default())
         .send()
-        .await?;
+        .await
+        .context("APIとの通信中にエラーが発生しました")?;
     Ok(response)
 }
