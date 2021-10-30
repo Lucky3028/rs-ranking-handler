@@ -39,11 +39,8 @@ async fn fetch_data(ranking_type: RankingType) -> anyhow::Result<Vec<seichi_api:
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     println!("月別ランキング報酬の抽選を開始します。");
-    println!();
-
     println!("今月の月別景品付与の対象になったプレイヤーの方々を一覧表示します。");
     util::pause();
-
     println!();
 
     let results = tokio::try_join!(
@@ -59,41 +56,34 @@ async fn main() -> anyhow::Result<()> {
 
     println!("整地量：{}名", RankingType::Break.get_targets());
     println!("{:#?}", breaks);
-
     println!();
-
     println!("建築量：{}名", RankingType::Build.get_targets());
     println!("{:#?}", builds);
-    
     println!();
-    
+
     println!("景品が実際に付与される方はこちらです。");
     util::pause();
-    
     println!();
     
     println!("整地量：{}名", RankingType::Break.get_winners());
-    println!();
     let rng = &mut rand::thread_rng();
     let break_winner: Vec<_> = breaks
         .choose_multiple(rng, RankingType::Break.get_winners().into())
         .cloned()
         .collect();
     println!("{:#?}", break_winner);
-    
     println!();
-    
+
     println!("建築量：{}名", RankingType::Build.get_winners());
-    println!();
     let build_winner: Vec<_> = builds
         .choose_multiple(rng, RankingType::Build.get_winners().into())
         .cloned()
         .collect();
     println!("{:#?}", build_winner);
-    
     println!();
-    
+
     println!("抽選を終了しました。");
+    println!();
 
     println!("以下コピペ用");
     let break_winner = break_winner.into_iter().map(|lot| lot.player_name).join(", ");
