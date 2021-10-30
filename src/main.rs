@@ -18,7 +18,12 @@ fn queries(ranking_type: RankingType) -> HashMap<String, String> {
 }
 
 async fn fetch_data(ranking_type: RankingType) -> anyhow::Result<Vec<seichi_api::Lottery>> {
-    let result = util::fetch(RANKING_URL, Some(queries(ranking_type))).await?;
+    let result = reqwest::Client::new()
+        .get(RANKING_URL)
+        .query(&queries(ranking_type))
+        .send()
+        .await
+        .context("APIとの通信中にエラーが発生しました")?;
     let result = result
         .json::<seichi_api::Rankings>()
         .await
