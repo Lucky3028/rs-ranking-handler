@@ -1,5 +1,6 @@
 use anyhow::Context;
 use rand::seq::SliceRandom;
+use itertools::Itertools;
 use ranking_handler::{
     domain::{seichi_api, RankingType},
     util,
@@ -94,7 +95,13 @@ async fn main() -> anyhow::Result<()> {
     
     println!("抽選を終了しました。");
 
-    // TODO: コピペ用のMCIDだけの表記
+    println!("以下コピペ用");
+    let break_winner = break_winner.into_iter().map(|lot| lot.player_name).join(", ");
+    let build_winner = build_winner.into_iter().map(|lot| lot.player_name).join(", ");
+    println!("[整地量]");
+    println!("{}", break_winner);
+    println!("[建築量]");
+    println!("{}", build_winner);
 
     Ok(())
 }
