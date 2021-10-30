@@ -21,6 +21,9 @@ jobs:
     - name: Cache dependencies
       uses: Swatinem/rust-cache@v1.3.0
 
+    - name: Compile dependencies
+      run: cargo test --no-run --locked
+
     - name: Add clippy
       run: rustup component add clippy
     - name: Check by clippy
@@ -29,10 +32,6 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         args:
           --all-features
-
-    - name: Compile dependencies
-      run: cargo test --no-run --locked
-
     - name: Build
       run: cargo build --verbose
     - name: Run tests
