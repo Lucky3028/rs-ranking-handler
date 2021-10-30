@@ -1,7 +1,7 @@
 use serde::Deserialize;
 
 /***
-○○量を表す
+統計の生データを表す
  */
 #[derive(Debug, Deserialize)]
 struct Amount {
