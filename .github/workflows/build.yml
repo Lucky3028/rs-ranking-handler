@@ -12,30 +12,25 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
+    - name: Cache dependencies
+      uses: Swatinem/rust-cache@v1.3.0
 
-    - name: Restore cache
-      uses: actions/cache@v2
+    - name: Add clippy
+      run: rustup component add clippy
+    - name: Check by clippy
+      uses: actions-rs/clippy-check@v1.0.7
       with:
-        path: |
-          ~/.cargo/registry
-          ~/.cargo/git
-          target
-        key: cargo-${{ github.ref }}-${{ hashFiles('**/Cargo.lock') }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        args:
+          --all-features
 
-    # IncrementalBuildが機能しないので、以下3ステップでファイルのタイムスタンプをgitから復元する
-    # https://zenn.dev/kt3k/articles/d557cc874961ab
-    - name: Install Python
-      uses: actions/setup-python@v2
-    - name: Install git-restore-mtime
-      run: sudo apt-get update && sudo apt-get install git-restore-mtime -y
-    - name: Restore mtime
-      run: git restore-mtime
+    - name: Compile dependencies
+      run: cargo test --no-run --locked
 
     - name: Build
       run: cargo build --verbose
