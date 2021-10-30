@@ -1,16 +1,24 @@
 use serde::Deserialize;
-use std::error;
 
+/***
+統計の生データを表す
+ */
 #[derive(Debug, Deserialize)]
 struct Amount {
     raw_data: String,
 }
 
+/***
+MCIDを表す
+ */
 #[derive(Debug, Deserialize)]
 struct PlayerIdentifier {
     name: String,
 }
 
+/***
+各プレイヤーの個別データを表す
+ */
 #[derive(Debug, Deserialize)]
 pub struct Rank {
     rank: u32,
@@ -22,6 +30,9 @@ pub struct Rank {
     player: PlayerIdentifier,
 }
 
+/***
+APIからの直接の返り値の型
+ */
 #[derive(Debug, Deserialize)]
 pub struct Rankings {
     result_count: u32,
@@ -29,10 +40,9 @@ pub struct Rankings {
     total_ranked_player: u32,
 }
 
-pub async fn deserialize(response: reqwest::Response) -> Result<Rankings, Box<(dyn error::Error)>> {
-    Ok(response.json::<Rankings>().await?)
-}
-
+/***
+本プログラム内で必要なものだけを詰め直すDTO
+ */
 #[derive(Clone, Debug)]
 pub struct Lottery {
     pub ranking_type: String,
@@ -57,6 +67,11 @@ impl Lottery {
     }
 
     pub fn convert(rank: &Rank) -> Lottery {
-        Lottery::new(&rank.r_type, rank.rank, &rank.amount.raw_data, &rank.player.name)
+        Lottery::new(
+            &rank.r_type,
+            rank.rank,
+            &rank.amount.raw_data,
+            &rank.player.name,
+        )
     }
 }
