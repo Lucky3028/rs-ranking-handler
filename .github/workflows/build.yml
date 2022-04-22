@@ -34,10 +34,3 @@ jobs:
           --all-features
     - name: Run tests
       run: cargo test --release
-
-    - name: Build
-      run: cargo build --release
-    - uses: actions/upload-artifact@v2
-      with:
-        name: my-artifact
-        path: ./target/release/ranking-handler
