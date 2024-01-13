@@ -19,7 +19,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Cache dependencies
-      uses: Swatinem/rust-cache@v2.7.1
+      uses: Swatinem/rust-cache@v2.7.2
 
     - name: Compile dependencies
       run: cargo test --no-run --locked --release
